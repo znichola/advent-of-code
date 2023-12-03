@@ -29,3 +29,21 @@ def calc_part1(winning_numbers):
 # print(2**(len(winning_numbers(extract_card(input[0]))) - 1))
 
 print(sum([calc_part1(winning_numbers(extract_card(line))) for line in input]))
+
+# bonus
+
+w_numbers = [len(winning_numbers(extract_card(line))) for line in input]
+total_cards = [1 for _ in range(0, len(input))]
+
+def recursive(index):
+    print(f"{index=} {total_cards=}")
+    if index >= len(w_numbers):
+        return
+    for i in range(index + 1, w_numbers[index] + index + 1):
+        total_cards[i] += total_cards[index]
+    return recursive(index + 1)
+
+recursive(0)
+
+# print(f"part2: {w_numbers}")
+print(f"part2: {sum(total_cards)}")
