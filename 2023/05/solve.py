@@ -49,8 +49,9 @@ temperature_to_humidity = parse_map("temperature-to-humidity")
 humidity_to_location = parse_map("humidity-to-location")
 
 def conversion_chain(value):
-    print(f"\nstarting for {value}")
-    return cnv(cnv(cnv(cnv(cnv(cnv(cnv(value, seed_to_soil), soil_to_fertilizer), fertilizer_to_water), water_to_light), light_to_temperature), temperature_to_humidity), humidity_to_location)
+    a = cnv(cnv(cnv(cnv(cnv(cnv(cnv(value, seed_to_soil), soil_to_fertilizer), fertilizer_to_water), water_to_light), light_to_temperature), temperature_to_humidity), humidity_to_location)
+    # print(f"for {value} its {a}")
+    return a
 
 # print(f"{seeds=}")
 # print(f"{seed_to_soil=}")
@@ -61,3 +62,26 @@ def conversion_chain(value):
 # print(f"{c=}")
 
 print(f"part 1: {min([conversion_chain(s) for s in seeds])}")
+
+# part 2 
+
+def regen_seeds(seeds):
+    return [(seeds[i], seeds[i+1]) for i in range(0, len(seeds), 2)]
+
+def min_per_seed(seed, lowest = None):
+    print(f"checking seed{seed}")
+    for s in range(seed[0], seed[0] + seed[1]):
+        c = conversion_chain(s)
+        if lowest == None:
+            lowest = c
+        if c < lowest:
+            lowest = c
+    return lowest
+
+
+new_seeds = regen_seeds(seeds)
+
+print(new_seeds)
+
+print(f"loweest per seed: {[min_per_seed(s) for s in new_seeds]}")
+# seeds: 2149186375 163827995 1217693442 67424215 365381741 74637275 1627905362 77016740 22956580 60539394 586585112 391263016 2740196667 355728559 2326609724 132259842 2479354214 184627854 3683286274 337630529
